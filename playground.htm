@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NiceGraph.js Playground</title>
+	<link rel="stylesheet" href="playground.css">
+</head>
+<body data-ng-app>
+<div data-ng-controller="NiceGraphsCtrl">
+	<h1>NiceGraph.js</h1>
+	<h3>Draw graphs on a plane using Simulated Annealing algorithm</h3>
+	<div id="sidebar">
+		<div class="block">
+			<h2>Graph properties</h2>
+
+			<div>
+				<span>Number of vertices</span>
+				<input type="number" step="1" min="0" max="30" data-ng-model="graph.vertexCount"/>
+			</div>
+			<div>
+				<span>Edge probability</span>
+				<input type="number" step="0.1" min="0" max="1" data-ng-model="graph.edgeProbability"/>
+			</div>
+		</div>
+		<button data-ng-click="redraw()" data-ng-disabled="loading">Redraw</button>
+		<div class="block">
+			<h2>Algorithm settings</h2>
+
+			<div>
+				<span>Initial temperature</span>
+				<input step="100" min="100" max="2000" data-ng-model="SAInitialTemperature" type="number"/>
+			</div>
+			<div>
+				<span>Temperature Decrease Rate</span>
+				<input step="0.01" min="0.5" max="0.99" data-ng-model="SATemperatureDecreaseRate" type="number"/>
+			</div>
+			<div>
+				<span>Importance of the distances between vertices</span>
+				<input step="20" min="0" max="1000" data-ng-model="nodeDistanceFactor" type="number"/>
+			</div>
+			<div>
+				<span>Importance of the distances from borders</span>
+				<input step="20" min="0" max="1000" data-ng-model="borderDistanceFactor" type="number"/>
+			</div>
+			<div>
+				<span>Importance of small edge lengths</span>
+				<input step="20" min="0" max="1000" data-ng-model="edgeLengthFactor" type="number"/>
+			</div>
+			<div>
+				<span>Importance of the distances between vertices and edges</span>
+				<input step="10" min="0" max="500" data-ng-model="nodeEdgeDistanceFactor" type="number"/>
+			</div>
+			<div>
+				<span>Importance of few edge crossings</span>
+				<input step="20" min="0" max="500" data-ng-model="edgeCrossingsFactor" type="number"/>
+			</div>
+		</div>
+
+	</div>
+	<div id="canvas" data-ng-class="{loading: loading}">
+		<div class="vertex" data-ng-repeat="vertex in graph.vertices"
+		     data-ng-style="{left: (vertex.x - 5) + 'px', top: (vertex.y - 5) + 'px'}"></div>
+		<div data-ng-repeat="edgeList in graph.edges">
+			<div class="edge" data-ng-repeat="edge in edgeList"
+			     data-ng-style="getEdgeStyle($parent.$index, edge)"></div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript" src="angular.min.js"></script>
+<script type="text/javascript" src="sajs.js"></script>
+<script type="text/javascript" src="niceGraph.js"></script>
+<script type="text/javascript" src="playground.js"></script>
+
+</body>
+</html>
